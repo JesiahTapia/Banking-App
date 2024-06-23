@@ -13,7 +13,7 @@ import {
 } from "@/lib/actions/user.actions";
 
 const PlaidLink = ({ user, variant }: PlaidLinkProps) => {
-  const router = useRouter;
+  const router = useRouter();
   const [token, setToken] = useState("");
   useEffect(() => {
     const getLinkToken = async () => {
