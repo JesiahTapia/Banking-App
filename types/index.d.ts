@@ -1,10 +1,10 @@
 /* eslint-disable no-unused-vars */
 
+// Define the SearchParamProps type
 declare type SearchParamProps = {
   params: { [key: string]: string };
   searchParams: { [key: string]: string | string[] | undefined };
 };
-
 // ========================================
 
 declare type SignUpParams = {

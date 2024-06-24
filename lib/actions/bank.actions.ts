@@ -8,11 +8,11 @@ import {
   TransferNetwork,
   TransferType,
 } from "plaid";
-//imports
+
 import { plaidClient } from "../plaid";
 import { parseStringify } from "../utils";
 
-// import { getTransactionsByBankId } from "./transaction.actions";
+import { getTransactionsByBankId } from "./transaction.actions";
 import { getBanks, getBank } from "./user.actions";
 
 // Get multiple bank accounts
@@ -75,10 +75,10 @@ export const getAccount = async ({ appwriteItemId }: getAccountProps) => {
     });
     const accountData = accountsResponse.data.accounts[0];
 
-    // // get transfer transactions from appwrite
-    // const transferTransactionsData = await getTransactionsByBankId({
-    //   bankId: bank.$id,
-    // });
+    // get transfer transactions from appwrite
+    const transferTransactionsData = await getTransactionsByBankId({
+      bankId: bank.$id,
+    });
 
     // const transferTransactions = transferTransactionsData.documents.map(
     //   (transferData: Transaction) => ({
@@ -114,15 +114,15 @@ export const getAccount = async ({ appwriteItemId }: getAccountProps) => {
       appwriteItemId: bank.$id,
     };
 
-    // sort transactions by date such that the most recent transaction is first
-      const allTransactions = [...transactions, ...transferTransactions].sort(
-      (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
-    );
+    // // // sort transactions by date such that the most recent transaction is first
+    // //   const allTransactions = [...transactions, ...transferTransactions].sort(
+    // //   (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+    // // );
 
-    return parseStringify({
-      data: account,
-      transactions: allTransactions,
-    });
+    // return parseStringify({
+    //   data: account,
+    //   transactions: allTransactions,
+    // });
   } catch (error) {
     console.error("An error occurred while getting the account:", error);
   }
