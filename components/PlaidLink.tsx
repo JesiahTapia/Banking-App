@@ -1,11 +1,11 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { Button } from "./ui/button";
-import { useRouter } from "next/navigation";
 import {
   PlaidLinkOnSuccess,
   PlaidLinkOptions,
   usePlaidLink,
 } from "react-plaid-link";
+import { useRouter } from "next/navigation";
 import {
   createLinkToken,
   exchangePublicToken,
@@ -14,30 +14,38 @@ import Image from "next/image";
 
 const PlaidLink = ({ user, variant }: PlaidLinkProps) => {
   const router = useRouter();
+
   const [token, setToken] = useState("");
+
   useEffect(() => {
     const getLinkToken = async () => {
       const data = await createLinkToken(user);
+
       setToken(data?.linkToken);
     };
+
     getLinkToken();
   }, [user]);
+
   const onSuccess = useCallback<PlaidLinkOnSuccess>(
     async (public_token: string) => {
       await exchangePublicToken({
         publicToken: public_token,
         user,
       });
+
       router.push("/");
     },
     [user]
   );
+
   const config: PlaidLinkOptions = {
     token,
     onSuccess,
   };
 
   const { open, ready } = usePlaidLink(config);
+
   return (
     <>
       {variant === "primary" ? (
@@ -46,7 +54,7 @@ const PlaidLink = ({ user, variant }: PlaidLinkProps) => {
           disabled={!ready}
           className="plaidlink-primary"
         >
-          Connect Bank
+          Connect bank
         </Button>
       ) : variant === "ghost" ? (
         <Button
@@ -57,11 +65,11 @@ const PlaidLink = ({ user, variant }: PlaidLinkProps) => {
           <Image
             src="/icons/connect-bank.svg"
             alt="connect bank"
-            height={24}
             width={24}
+            height={24}
           />
-          <p className=" hiddenl text-[16px] font-semibold text-black-2 xl:block">
-            Connect Bank
+          <p className="hiddenl text-[16px] font-semibold text-black-2 xl:block">
+            Connect bank
           </p>
         </Button>
       ) : (
@@ -69,13 +77,14 @@ const PlaidLink = ({ user, variant }: PlaidLinkProps) => {
           <Image
             src="/icons/connect-bank.svg"
             alt="connect bank"
-            height={24}
             width={24}
+            height={24}
           />
-          <p className="text-[16px] font-semibold text-black-2">Connect Bank</p>
+          <p className="text-[16px] font-semibold text-black-2">Connect bank</p>
         </Button>
       )}
     </>
   );
 };
+
 export default PlaidLink;
